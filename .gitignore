@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Output files (large 3D files)
+*.obj
+*.fbx
+*.ply
