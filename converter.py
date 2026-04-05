@@ -220,7 +220,7 @@ except Exception as e:
 """
 
 
-def _blender_convert(input_path, output_path, callback=None):
+def _blender_convert(input_path, output_path, callback=None, label=None):
     """
     Use Blender headlessly to convert between 3D formats.
     Raises RuntimeError if Blender is not installed or conversion fails.
@@ -243,7 +243,7 @@ def _blender_convert(input_path, output_path, callback=None):
 
         if callback:
             callback(
-                f"  Running Blender: {input_path.name} → {output_path.name}",
+                label or f"  Running Blender: {input_path.name} → {output_path.name}",
                 progress=5,
             )
 
@@ -382,7 +382,8 @@ def read_abc(filepath, callback=None):
     """Read Alembic .abc file via Blender → intermediate PLY."""
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_ply = Path(tmpdir) / "converted.ply"
-        _blender_convert(filepath, tmp_ply, callback=callback)
+        _blender_convert(filepath, tmp_ply, callback=callback,
+                         label=f"  Reading {Path(filepath).name} via Blender...")
         return read_ply(tmp_ply, callback=callback)
 
 
@@ -390,7 +391,8 @@ def read_blend(filepath, callback=None):
     """Read Blender .blend file via Blender → intermediate PLY."""
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_ply = Path(tmpdir) / "converted.ply"
-        _blender_convert(filepath, tmp_ply, callback=callback)
+        _blender_convert(filepath, tmp_ply, callback=callback,
+                         label=f"  Reading {Path(filepath).name} via Blender...")
         return read_ply(tmp_ply, callback=callback)
 
 
